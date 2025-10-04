@@ -13,7 +13,7 @@ This submission implements three tasks—Polynomial ADT, Text Editor Simulation,
 
 Publicly Accessible GitHub Link
 ------------------------------
-https://github.com/Ailya523506/DSA-Assignment1-Fall2025
+https://github.com/Ailya-Shah/DSA-assignment01-2025.git
 
 Challenges Faced
 ----------------
