@@ -1,36 +1,29 @@
 #include "texteditor.h"
 #include <iostream>
-using namespace std;
 
 int main() {
-    TextEditor* editor = createTextEditor(); // ✅ Factory creates the concrete class
+    TextEditor* editor = createTextEditor();
 
-    // Type the word "HELLO"
     editor->insertChar('H');
-    editor->insertChar('E');
-    editor->insertChar('L');
-    editor->insertChar('L');
-    editor->insertChar('O');
-    cout << "After typing HELLO: " << editor->getTextWithCursor() << endl;
+    editor->insertChar('e');
+    editor->insertChar('l');
+    editor->insertChar('l');
+    editor->insertChar('o');
+    std::cout << "After typing Hello: " << editor->getTextWithCursor() << std::endl;
 
-    // Move cursor left twice
     editor->moveLeft();
     editor->moveLeft();
-    cout << "After moving cursor left twice: " << editor->getTextWithCursor() << endl;
-
-    // Insert a character 'X' before 'L'
     editor->insertChar('X');
-    cout << "After inserting X: " << editor->getTextWithCursor() << endl;
+    std::cout << "After moving left twice and inserting X: " << editor->getTextWithCursor() << std::endl;
 
-    // Delete one character (backspace)
     editor->deleteChar();
-    cout << "After deleting one character: " << editor->getTextWithCursor() << endl;
+    std::cout << "After deleting: " << editor->getTextWithCursor() << std::endl;
 
-    // Move cursor right once
     editor->moveRight();
-    cout << "After moving cursor right once: " << editor->getTextWithCursor() << endl;
+    editor->insertChar('!');
+    std::cout << "After moving right and adding !: " << editor->getTextWithCursor() << std::endl;
 
-    delete editor; // Clean up
+    delete editor;
     return 0;
 }
 

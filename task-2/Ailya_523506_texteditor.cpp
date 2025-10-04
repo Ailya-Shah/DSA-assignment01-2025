@@ -1,51 +1,99 @@
 #include "texteditor.h"
-#include <vector>
 #include <string>
+#include <sstream>
 
-// Concrete implementation: use two vectors (left and right) - efficient cursor ops
-class ConcreteTextEditor : public TextEditor {
+// Node for doubly linked list
+struct Node {
+    char data;
+    Node* prev;
+    Node* next;
+    Node(char c) : data(c), prev(nullptr), next(nullptr) {}
+};
+
+class LinkedListTextEditor : public TextEditor {
 private:
-    std::vector<char> left;  // characters to left of cursor (left.back() is immediately left)
-    std::vector<char> right; // characters to right of cursor (right.back() is far right)
+    Node* head;     // start of text
+    Node* tail;     // end of text
+    Node* cursor;   // cursor points to node *before* the '|'
+    int length;
+
 public:
-    ConcreteTextEditor() = default;
-    virtual ~ConcreteTextEditor() {}
+    LinkedListTextEditor() : head(nullptr), tail(nullptr), cursor(nullptr), length(0) {}
+    virtual ~LinkedListTextEditor() {
+        Node* current = head;
+        while (current) {
+            Node* next = current->next;
+            delete current;
+            current = next;
+        }
+    }
 
+    // Insert character at cursor position
     void insertChar(char c) override {
-        left.push_back(c);
+        Node* newNode = new Node(c);
+        if (!head) {
+            head = tail = newNode;
+            cursor = newNode;
+        } else if (!cursor) { // inserting at beginning
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+            cursor = newNode;
+        } else {
+            newNode->next = cursor->next;
+            newNode->prev = cursor;
+            if (cursor->next) cursor->next->prev = newNode;
+            cursor->next = newNode;
+            if (cursor == tail) tail = newNode;
+            cursor = newNode;
+        }
+        length++;
     }
 
+    // Delete char before cursor (backspace)
     void deleteChar() override {
-        if (!left.empty()) left.pop_back();
+        if (!cursor) return; // nothing before cursor
+        Node* toDelete = cursor;
+        if (toDelete->prev) toDelete->prev->next = toDelete->next;
+        else head = toDelete->next;
+        if (toDelete->next) toDelete->next->prev = toDelete->prev;
+        else tail = toDelete->prev;
+        cursor = toDelete->prev;
+        delete toDelete;
+        length--;
     }
 
+    // Move cursor one char left
     void moveLeft() override {
-        if (!left.empty()) {
-            char c = left.back();
-            left.pop_back();
-            right.push_back(c);
-        }
+        if (cursor) cursor = cursor->prev;
     }
 
+    // Move cursor one char right
     void moveRight() override {
-        if (!right.empty()) {
-            char c = right.back();
-            right.pop_back();
-            left.push_back(c);
+        if (!cursor) { // cursor before first
+            if (head) cursor = head;
+            return;
         }
+        if (cursor->next) cursor = cursor->next;
     }
 
+    // Build text with '|' showing cursor position
     std::string getTextWithCursor() const override {
-        std::string s;
-        for (char c : left) s.push_back(c);
-        s.push_back('|');
-        // right is stored with oldest at index 0; but we appended using push_back so right.back() is last moved char.
-        // We want to print right in reverse of storing (since we push_back when moving left).
-        for (auto it = right.rbegin(); it != right.rend(); ++it) s.push_back(*it);
-        return s;
+        std::ostringstream os;
+        Node* current = head;
+        if (!cursor) os << "|"; // Cursor before first character
+        while (current) {
+            os << current->data;
+            if (current == cursor) os << "|";
+            current = current->next;
+        }
+        if (cursor == tail && tail) os << "|"; // Cursor at the end
+        return os.str();
     }
 };
 
+// Factory function
 extern "C" TextEditor* createTextEditor() {
-    return new ConcreteTextEditor();
+    return new LinkedListTextEditor();
 }
+

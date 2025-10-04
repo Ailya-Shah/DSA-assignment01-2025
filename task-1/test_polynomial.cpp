@@ -1,7 +1,6 @@
 #include "polynomial.h"
 #include <iostream>
 
-// use factory function declared in your implementation file
 extern "C" Polynomial* createPolynomial();
 
 int main() {
@@ -15,7 +14,7 @@ int main() {
     p2->insertTerm(1, 4);
     p2->insertTerm(1, 0);
 
-    Polynomial* sum = p1->add(*p2);  // your derived class returns Polynomial*
+    Polynomial* sum = p1->add(*p2);
     Polynomial* p3 = createPolynomial();
     p3->insertTerm(2, 1);
 
@@ -33,6 +32,5 @@ int main() {
     delete sum;
     delete prod;
     delete deriv;
-
-    return 0;
 }
+
