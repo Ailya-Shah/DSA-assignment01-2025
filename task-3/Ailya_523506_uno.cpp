@@ -6,13 +6,13 @@
 #include <sstream>
 
 using namespace std;
-
+// Card representation
 enum Color { RED, GREEN, BLUE, YELLOW };
 enum Value { 
     ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,
     SKIP, REVERSE, DRAW_TWO 
 };
-
+//simple card structure
 struct Card {
     Color color;
     Value value;
