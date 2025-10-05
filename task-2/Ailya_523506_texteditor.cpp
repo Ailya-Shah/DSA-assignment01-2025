@@ -9,7 +9,7 @@ struct Node {
     Node* next;
     Node(char c) : data(c), prev(nullptr), next(nullptr) {}
 };
-
+// linked list implementation of TextEditor
 class LinkedListTextEditor : public TextEditor {
 private:
     Node* head;     // start of text
