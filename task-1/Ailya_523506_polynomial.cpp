@@ -5,7 +5,7 @@
 
 using std::string;
 using std::ostringstream;
-
+//node structure for linked list
 struct Node {
     int coeff;
     int exp;
