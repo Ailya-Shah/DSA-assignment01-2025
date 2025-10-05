@@ -15,6 +15,24 @@ Publicly Accessible GitHub Link
 ------------------------------
 https://github.com/Ailya-Shah/DSA-assignment01-2025.git
 
+Compilation and Execution
+------------------------
+To compile and run the code, use the following commands in the directory 
+
+- **Polynomial ADT**:
+  - Compile: `g++ test_polynomial.cpp Ailya_523506_polynomial.cpp -o polynomial`
+  - Run: `polynomial`
+
+- **Text Editor Simulation**:
+  - Compile: `g++ test_texteditor.cpp Ailya_523506_texteditor.cpp -o texteditor`
+  - Run: `texteditor`
+
+- **UNO Card Game Simulation**:
+  - Compile: `g++ test_unogame.cpp Ailya_523506_uno.cpp -o unogame`
+  - Run: `unogame`
+
+Example Workflow:
+
 Challenges Faced
 ----------------
 Implementing this assignment presented several challenges, particularly in aligning with the  hint about a "slight enhancement" involving a C++ keyword. Initially, we assumed it might be `private` with linked list members, leading to non-compliant code due to the no-modification constraint on headers. After iterative attempts and clarification, we identified `virtual` as the intended keyword, requiring a shift to abstract base classes with virtual functions. This necessitated redesigning the headers to include pure virtual methods and implementing concrete derived classes, which was complex due to managing dynamic memory for linked lists (e.g., memory leaks in `UNOGame`). The lack of permission to enhance headers caused trial-and-error, and the deadline pressure. Test case compatibility was another hurdle, resolved by aligning with provided output formats. We request feedback to refine the virtual design and ensure test case success.
